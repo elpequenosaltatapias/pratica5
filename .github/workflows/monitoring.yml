@@ -3,7 +3,7 @@ name: Deploy Monitoring
 on:
   push:
     branches:
-      - main
+      - desarrollo
     paths:
       - 'monitoring/**'
       - '.github/workflows/monitoring.yml'
