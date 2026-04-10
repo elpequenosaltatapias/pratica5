@@ -1,7 +1,7 @@
 name: CI Seguridad
 
 on:
-  push:
+  pull:
     branches: [ desarrollo ]
   workflow_dispatch:
 
