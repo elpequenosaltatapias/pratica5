@@ -1,7 +1,7 @@
 name: CD - Despliegue
 
 on:
-  pull:
+  push:
     branches:
       - desarrollo
 
