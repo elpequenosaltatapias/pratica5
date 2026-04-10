@@ -7,13 +7,12 @@ on:
 
 jobs:
   test:
-    runs-on: self-hosted 
+    runs-on: self-hosted
 
     steps:
-        
       - name: Checkout código
         uses: actions/checkout@v4
-        
+
       - name: Crear archivo en servidor otra vez
         run: echo "Estoy en el runner" > prueba_runner.txt
 
@@ -22,12 +21,17 @@ jobs:
         with:
           node-version: 20
 
+      - name: Instalar Python y pip
+        run: |
+          sudo apt update
+          sudo apt install -y python3 python3-pip
+
       - name: Instalar dependencias
         run: npm install
 
       - name: Ejecutar tests
         run: node ./node_modules/jest/bin/jest.js
-      
+
       - name: Instalar Semgrep
         run: |
           python3 -m pip install semgrep
@@ -36,24 +40,23 @@ jobs:
         run: |
           python3 -m semgrep --config=auto
 
-
       - name: Escaneo de dependencias
-        run: npm audit||true
-          
-      - name: Iniciar aplicación  
-        run: |  
-          npm start &  
-          sleep 90  
-          curl -I http://localhost:3001 || true  
-  
-      - name: Ejecutar ZAP Scan  
-        uses: zaproxy/action-baseline@v0.15.0  
-        with:  
-          target: 'http://localhost:3001'  
-          cmd_options: '-r report_html.html'  
-  
-      - name: Subir reporte  
-        uses: actions/upload-artifact@v4  
-        with:  
-          name: ZAP-Report  
+        run: npm audit
+
+      - name: Iniciar aplicación
+        run: |
+          npm start &
+          sleep 90
+          curl -I http://localhost:3001 || true
+
+      - name: Ejecutar ZAP Scan
+        uses: zaproxy/action-baseline@v0.15.0
+        with:
+          target: 'http://localhost:3001'
+          cmd_options: '-r report_html.html'
+
+      - name: Subir reporte
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZAP-Report
           path: report_html.html
