@@ -31,6 +31,10 @@ jobs:
         run: |
           python3 -m pip install semgrep
 
+      - name: Añadir Semgrep al PATH
+        run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          
       - name: Ejecutar Semgrep
         run: |
           semgrep --config=auto
