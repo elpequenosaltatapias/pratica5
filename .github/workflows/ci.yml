@@ -28,15 +28,18 @@ jobs:
       - name: Ejecutar tests
         run: node ./node_modules/jest/bin/jest.js
       
-      - name: SAST
+      - name: Instalar Semgrep
         run: |
-          pip install semgrep
-          semgrep --config=auto
+          python3 -m pip install semgrep
+
+      - name: Ejecutar Semgrep
+        run: |
+          python3 -m semgrep --config=auto
 
 
       - name: Escaneo de dependencias
         run: npm audit||true
-      
+          
       - name: Iniciar aplicación  
         run: |  
           npm start &  
